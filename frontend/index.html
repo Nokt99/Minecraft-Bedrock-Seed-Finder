@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Minecraft Seed Engine</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div id="app-root">
+    <header class="app-header">
+      <div class="app-logo">
+        <span class="logo-icon">⛏️</span>
+        <div class="logo-text">
+          <h1>Minecraft Seed Engine</h1>
+          <p>AI-powered seed discovery & learning</p>
+        </div>
+      </div>
+
+      <div class="header-controls">
+        <div class="version-select">
+          <label for="versionSelect">Bedrock version</label>
+          <select id="versionSelect">
+            <option value="1.21.80" selected>1.21.80</option>
+            <option value="1.21.70">1.21.70</option>
+            <option value="1.21.60">1.21.60</option>
+            <option value="1.20.0">1.20.0</option>
+          </select>
+        </div>
+
+        <div class="auth-controls">
+          <span id="userStatus" class="user-status user-status-guest">Guest</span>
+          <button id="btnOpenAuth" class="btn btn-outline">Sign in</button>
+        </div>
+      </div>
+    </header>
+
+    <main class="app-main">
+      <section id="screenHome" class="screen screen-active">
+        <div class="screen-inner">
+          <div class="hero">
+            <h2>Choose your path</h2>
+            <p class="hero-subtitle">
+              Roll for chaos or describe your dream world. The engine learns from every choice.
+            </p>
+          </div>
+
+          <div class="mode-cards">
+            <article class="mode-card" id="cardLucky">
+              <div class="mode-card-header">
+                <div class="mode-icon">🎲</div>
+                <h3>Lucky Mode</h3>
+              </div>
+              <p class="mode-description">
+                Hit the dice. Get a hybrid-chaos seed: 80% smart OP picks, 20% wild exploration.
+              </p>
+              <ul class="mode-bullets">
+                <li>Find rare, stacked, OP seeds</li>
+                <li>Powered by global & personal learning</li>
+                <li>Perfect for instant inspiration</li>
+              </ul>
+              <button id="btnGoLucky" class="btn btn-primary">
+                Roll a Lucky Seed
+              </button>
+            </article>
+
+            <article class="mode-card" id="cardFinder">
+              <div class="mode-card-header">
+                <div class="mode-icon">🔍</div>
+                <h3>Seed Finder</h3>
+              </div>
+              <p class="mode-description">
+                Describe what you want. The engine hunts for the closest match it can find.
+              </p>
+              <ul class="mode-bullets">
+                <li>Island spawn, OP loot, rare biomes</li>
+                <li>Version-aware & self-correcting</li>
+                <li>Gets smarter every time you use it</li>
+              </ul>
+              <button id="btnGoFinder" class="btn btn-secondary">
+                Open Seed Finder
+              </button>
+            </article>
+          </div>
+
+          <div class="home-footnote">
+            <p>
+              Sign in to unlock personalized learning: the engine will remember what you like and tune results to your style.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section id="screenLucky" class="screen">
+        <div class="screen-inner">
+          <button class="btn btn-ghost back-button" data-back="home">← Back</button>
+          <header class="screen-header">
+            <h2>Lucky Mode</h2>
+            <p>
+              Hybrid chaos: 80% controlled OP seeds, 20% pure exploration. Version:
+              <span id="luckyVersionLabel" class="pill pill-soft"></span>
+            </p>
+          </header>
+
+          <div class="lucky-layout">
+            <div class="lucky-main">
+              <button id="btnGenerateLucky" class="btn btn-primary btn-large">
+                Roll a Lucky Seed
+              </button>
+              <p class="lucky-hint" id="luckyHint">
+                The engine will learn from what you mark as OP, mid, or wrong.
+              </p>
+              <div id="luckyStatus" class="status-label"></div>
+            </div>
+
+            <div class="lucky-side">
+              <h3>How this works</h3>
+              <ul class="info-list">
+                <li><strong>Controlled chaos</strong> uses known OP patterns and rare combos.</li>
+                <li><strong>Pure chaos</strong> occasionally tests wild seeds to discover new patterns.</li>
+                <li>Your feedback trains both the global brain and your personal taste profile.</li>
+              </ul>
+            </div>
+          </div>
+
+          <div id="resultContainerLucky" class="seed-result-container"></div>
+        </div>
+      </section>
+
+      <section id="screenFinder" class="screen">
+        <div class="screen-inner">
+          <button class="btn btn-ghost back-button" data-back="home">← Back</button>
+          <header class="screen-header">
+            <h2>Seed Finder</h2>
+            <p>
+              Describe your dream scenario. The engine will search its brain for the best matching seed.
+            </p>
+          </header>
+
+          <div class="finder-grid">
+            <div class="finder-input-panel">
+              <label for="finderDescription" class="field-label">Describe your seed</label>
+              <textarea
+                id="finderDescription"
+                class="field-textarea"
+                rows="4"
+                placeholder="Examples:
+- Island spawn with warm ocean and mansion under 2k
+- OP village loot seed near spawn
+- Dark forest cliffs with river and outpost nearby"
+              ></textarea>
+
+              <button id="btnFinderSearch" class="btn btn-primary btn-large">
+                Find Seed
+              </button>
+
+              <p class="helper-text">
+                The engine turns your description into constraints and preferences,
+                then scores candidates by match, OP-ness, rarity, and confidence.
+              </p>
+              <div id="finderStatus" class="status-label"></div>
+            </div>
+
+            <div class="finder-side-panel">
+              <h3>Tips</h3>
+              <ul class="info-list">
+                <li>Be specific: mention structures, biomes, and vibes.</li>
+                <li>Say what’s <strong>required</strong> vs what’s just a <strong>preference</strong>.</li>
+                <li>If the engine can’t find a combo, it’ll tell you honestly.</li>
+              </ul>
+            </div>
+          </div>
+
+          <div id="resultContainerFinder" class="seed-result-container"></div>
+        </div>
+      </section>
+    </main>
+
+    <div id="authModal" class="modal hidden">
+      <div class="modal-backdrop"></div>
+      <div class="modal-content">
+        <button id="btnCloseAuth" class="btn btn-ghost modal-close">✕</button>
+        <h2 id="authTitle">Sign in</h2>
+        <p class="modal-subtitle">
+          Create an account to unlock personal learning and seed history.
+        </p>
+
+        <form id="authForm" class="auth-form">
+          <label for="authEmail" class="field-label">Email</label>
+          <input id="authEmail" type="email" class="field-input" required />
+
+          <label for="authPassword" class="field-label">Password</label>
+          <input id="authPassword" type="password" class="field-input" required />
+
+          <button type="submit" class="btn btn-primary btn-full">Continue</button>
+        </form>
+
+        <button id="btnToggleAuthMode" class="btn btn-ghost btn-small">
+          Need an account? Create one
+        </button>
+      </div>
+    </div>
+
+    <template id="seedResultTemplate">
+      <section class="seed-result">
+        <header class="seed-result-header">
+          <div>
+            <h3 class="seed-title">
+              Seed: <span class="seed-value"></span>
+            </h3>
+            <p class="seed-subtitle"></p>
+          </div>
+          <button class="btn btn-outline btn-small btn-copy-seed">Copy</button>
+        </header>
+
+        <div class="seed-meta-row">
+          <div class="seed-score-block">
+            <div class="score-label">Overall score</div>
+            <div class="score-value"></div>
+          </div>
+          <div class="seed-tags"></div>
+        </div>
+
+        <div class="seed-layout">
+          <div class="seed-details">
+            <h4>Why this seed?</h4>
+            <p class="seed-reasoning"></p>
+
+            <div class="score-grid">
+              <div class="score-chip">
+                <span class="score-chip-label">Match</span>
+                <span class="score-chip-value score-chip-match"></span>
+              </div>
+              <div class="score-chip">
+                <span class="score-chip-label">OP</span>
+                <span class="score-chip-value score-chip-op"></span>
+              </div>
+              <div class="score-chip">
+                <span class="score-chip-label">Rarity</span>
+                <span class="score-chip-value score-chip-rarity"></span>
+              </div>
+              <div class="score-chip">
+                <span class="score-chip-label">Confidence</span>
+                <span class="score-chip-value score-chip-confidence"></span>
+              </div>
+            </div>
+
+            <div class="feedback-row">
+              <span class="feedback-label">How did we do?</span>
+              <div class="feedback-buttons">
+                <button class="btn btn-soft btn-feedback" data-feedback="op">OP</button>
+                <button class="btn btn-soft btn-feedback" data-feedback="mid">Mid</button>
+                <button class="btn btn-soft btn-feedback" data-feedback="match">Matches</button>
+                <button class="btn btn-soft btn-feedback" data-feedback="wrong">Wrong</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="seed-viewer">
+            <h4>Chunkbase Preview</h4>
+            <p class="viewer-caption">
+              This is an embedded Chunkbase-like preview. In the real app, this will point to the exact world view.
+            </p>
+            <div class="viewer-frame">
+              <iframe class="viewer-iframe" src="about:blank" loading="lazy"></iframe>
+            </div>
+          </div>
+        </div>
+      </section>
+    </template>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
